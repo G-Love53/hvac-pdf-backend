@@ -30,7 +30,7 @@ COPY . .
 
 # Ensure CID_HomeBase exists in cloud builds (Render doesn't fetch submodules).
 # Bump HOMEBASE_CACHE_BUST when you push new CID_HomeBase so this layer re-runs and clones fresh.
-ARG HOMEBASE_CACHE_BUST=2
+ARG HOMEBASE_CACHE_BUST=3
 RUN rm -rf CID_HomeBase \
  && git clone --depth 1 https://github.com/G-Love53/CID_HomeBase CID_HomeBase \
  && echo "HomeBase refresh: $HOMEBASE_CACHE_BUST"
