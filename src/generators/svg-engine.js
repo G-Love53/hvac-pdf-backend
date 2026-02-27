@@ -131,49 +131,53 @@ function isChecked(v) {
 
 // Coordinate overlay mapping (matches your mapper output)
 function applyMapping(svg, pageMap, data) {
-  if (!pageMap?.fields?.length) return ensureXmlSpace(svg);
+  svg = ensureXmlSpace(svg);
+  if (!pageMap?.fields?.length && data?.__grid !== true) return svg;
 
   const overlay = [];
   overlay.push(`<g id="cid-overlay" font-family="Arial, Helvetica, sans-serif" fill="#000">`);
 
-  for (const f of pageMap.fields) {
-  const key = f.key || f.name;
-  const raw = data?.[key];
-  if (!key) continue;
-
-  if (f.type === "checkbox") {
-  if (isChecked(raw)) {
-    const x = Number(f.x);
-    const y = Number(f.y);
-    const size = Number(f.size || f.fontSize || 10);
-
-    // guard: bad map data should never crash rendering
-    if (Number.isFinite(x) && Number.isFinite(y)) {
-      overlay.push(
-        `<text x="${x}" y="${y}" font-size="${size}" dominant-baseline="hanging">X</text>`
-      );
-    }
+  // Extra debug text when __grid is true so we can visually confirm overlay is active
+  if (data?.__grid === true) {
+    overlay.push(
+      `<text x="40" y="40" font-size="24" fill="#f00" dominant-baseline="hanging">DEBUG SUPP PLUMBER</text>`
+    );
   }
-  continue;
-}
+
+  for (const f of pageMap?.fields || []) {
+    const key = f.key || f.name;
+    const raw = data?.[key];
+    if (!key) continue;
+
+    if (f.type === "checkbox") {
+      if (isChecked(raw)) {
+        const x = Number(f.x);
+        const y = Number(f.y);
+        const size = Number(f.size || f.fontSize || 10);
+
+        // guard: bad map data should never crash rendering
+        if (Number.isFinite(x) && Number.isFinite(y)) {
+          overlay.push(
+            `<text x="${x}" y="${y}" font-size="${size}" dominant-baseline="hanging">X</text>`
+          );
+        }
+      }
+      continue;
+    }
 
     const val = asString(raw);
-  if (!val) continue;
+    if (!val) continue;
 
+    const x = Number(f.x);
+    const y = Number(f.y);
 
-  const x = Number(f.x);
-  const y = Number(f.y);
+    if (!Number.isFinite(x) || !Number.isFinite(y)) continue;
 
-  if (!Number.isFinite(x) || !Number.isFinite(y)) continue;
-
-  overlay.push(
-  `<text x="${x}" y="${y + TEXT_PAD_Y}" font-size="${Number(f.fontSize || 8)}"
+    overlay.push(
+      `<text x="${x}" y="${y + TEXT_PAD_Y}" font-size="${Number(f.fontSize || 8)}"
     dominant-baseline="hanging" text-anchor="start">${escapeXml(val)}</text>`
-);
-
-
-}
-
+    );
+  }
 
   overlay.push(`</g>`);
   const overlayBlock = overlay.join("");
