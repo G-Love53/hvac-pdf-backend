@@ -11,5 +11,12 @@
     "ACORD126",
     "ACORD130",
     "ACORD140"
-  ]
+  ],
+     "HVAC_INTAKE": [
+     "SUPP_HVAC",
+     "ACORD125",
+     "ACORD126",
+     "ACORD130",
+     "ACORD140"
+   ]
 }
