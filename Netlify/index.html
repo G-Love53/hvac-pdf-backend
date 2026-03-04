@@ -3,7 +3,7 @@
 <head>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta charset="utf-8"/>
-<title>Plumber Insurance Direct - Contractor Quote</title>
+<title>HVAC Insurance Direct - Contractor Quote</title>
 <style>
     /* --- CSS FROM ROOFER FORM (Optimized for Look & Feel) --- */
     body {
@@ -248,7 +248,7 @@
 <body>
 
 <div class="form-container">
-    <h1>🔧 Plumber Insurance Direct</h1>
+    <h1>🔧 HVAC Insurance Direct</h1>
     <p class="subtitle">Get your quote in minutes. No agent calls. No back-and-forth.</p>
 
     <form id="quoteForm" name="plumber-contractor-quote">
@@ -355,7 +355,7 @@
         </details>
 
         <details id="details-operations">
-            <summary>Plumbing Operations & Specifics</summary>
+            <summary>HVAC Operations & Specifics</summary>
             <div>
                 <label class="required">Breakdown of Work Type (Must equal 100%)</label>
                 <div class="three-column">
@@ -387,29 +387,6 @@
 
                 <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
 
-                <label class="required">Do you perform any gas line work or hook-ups?</label>
-                <select name="gas_line_work" data-conditional="gas_line_work" required>
-                    <option value="">-- Select --</option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>
-
-                <div class="conditional-section" data-show-when="gas_line_work=Yes">
-                    <p style="margin-top: 0; font-weight: 600; color: #ea580c;">Gas Line Follow-up:</p>
-                    <div class="two-column">
-                        <div>
-                            <label>Any boiler work related to gas lines?</label>
-                            <select name="boiler_work_gas"><option value="No">No</option><option value="Yes">Yes</option></select>
-                        </div>
-                        <div>
-                            <label>Any welding operations?</label>
-                            <select name="welding_operations_gas"><option value="No">No</option><option value="Yes">Yes</option></select>
-                        </div>
-                    </div>
-                    <label>High-pressure steam pipe work related to gas lines?</label>
-                    <select name="high_pressure_steam_gas"><option value="No">No</option><option value="Yes">Yes</option></select>
-                </div>
-
                 <div class="two-column">
                     <div>
                         <label class="required">Any boiler work? (install/service/repair)</label>
@@ -428,35 +405,46 @@
                         </select>
                     </div>
                 </div>
-
-                <label>If you indicated Industrial work, what type of clients?</label>
-                <textarea name="industrial_plumbing_clients" placeholder="e.g., Factories, Processing Plants..."></textarea>
-
-                <label class="required">Does your work involve repair or remodeling?</label>
-                <select name="work_repair_remodel" data-conditional="work_repair_remodel" required>
+                
+                <label>Do you perform any crane operations?</label>
+                <select name="crane_operations">
                     <option value="">-- Select --</option>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select>
 
-                <div class="conditional-section" data-show-when="work_repair_remodel=Yes">
-                    <div class="two-column">
-                        <div>
-                            <label>What % of total operations?</label>
-                            <input name="pct_repair_remodel" type="number" min="0" max="100"/>
-                        </div>
-                        <div>
-                            <label>Any condo conversions?</label>
-                            <select name="condo_conversions"><option value="No">No</option><option value="Yes">Yes</option></select>
-                        </div>
-                    </div>
-                    <label>Any remodeling for condos/HOAs?</label>
-                    <select name="remodel_condos_hoas" data-conditional="remodel_condos_hoas"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select>
-                    
-                    <div class="conditional-section" data-show-when="remodel_condos_hoas=Yes">
-                        <label>Is this for the association or individual owners?</label>
-                        <input name="remodel_condos_hoas_for_whom" type="text"/>
-                    </div>
+                <label>Do you install or work on Air Conditioning Units?</label>
+                <select name="ac_units_work">
+                    <option value="">-- Select --</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+
+                <label>Do you install or work on any Refrigeration Equipment?</label>
+                <select name="refrigeration_work">
+                    <option value="">-- Select --</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+
+                <label>Do you have any welding operations?</label>
+                <select name="welding_operations" data-conditional="welding_operations">
+                    <option value="">-- Select --</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+
+                <div class="conditional-section" data-show-when="welding_operations=Yes">
+                    <label>
+                        Do you have preventative fire measures in place at all times including:
+                        clearing the area of all flammable exposures, shielding non-movable items with
+                        fire-resistant materials, and maintaining a 30-minute cool-down fire watch?
+                    </label>
+                    <select name="welding_fire_measures">
+                        <option value="">-- Select --</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
                 </div>
             </div>
         </details>
@@ -576,9 +564,9 @@
             </div>
         </details>
 
-        <input type="hidden" name="segment" value="plumber"/>
-        <input type="hidden" name="brand" value="PlumberInsuranceDirect"/>
-        <input type="hidden" name="site_domain" value="plumberinsurancedirect.com"/>
+        <input type="hidden" name="segment" value="hvac"/>
+        <input type="hidden" name="brand" value="HvacInsuranceDirect"/>
+        <input type="hidden" name="site_domain" value="hvacinsurancedirect.com"/>
 
         <button type="submit">Get My Quote</button>
     </form>
@@ -707,14 +695,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 rawData.applicant_phone = rawData.business_phone;
             }
 
-            // API Config
+            // API Config — HVAC segment
             const api_key = "CID9200$";
-            const response = await fetch("https://plumber-pdf-backend.onrender.com/submit-quote", {
+            const response = await fetch("https://hvac-pdf-backend.onrender.com/submit-quote", {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "X-API-Key": api_key },
                 body: JSON.stringify({
+                    bundle_id: "HVAC_INTAKE",
                     formData: rawData,
-                    segments: ["PlumberAccord125", "PlumberAccord126", "PlumberSupp"]
+                    segment: "hvac",
+                    email: { to: ["quotes@hvacinsurancedirect.com"] }
                 })
             });
 
