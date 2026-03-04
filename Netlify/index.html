@@ -695,6 +695,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 rawData.applicant_phone = rawData.business_phone;
             }
 
+            // Align crane question with existing SUPP mapping (page-4: use_of_cranes_yes / use_of_cranes_no)
+            if (rawData.crane_operations === 'Yes') {
+                rawData.use_of_cranes_yes = 'Yes';
+                rawData.use_of_cranes_no = '';
+            } else if (rawData.crane_operations === 'No') {
+                rawData.use_of_cranes_yes = '';
+                rawData.use_of_cranes_no = 'Yes';
+            }
+
             // API Config — HVAC segment
             const api_key = "CID9200$";
             const response = await fetch("https://hvac-pdf-backend.onrender.com/submit-quote", {
